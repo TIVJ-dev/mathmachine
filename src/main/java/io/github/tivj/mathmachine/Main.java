@@ -35,16 +35,16 @@ public class Main {
                         expression.substring("pi*".length())
                 )
         );
-        else if (expression.contains("#") && expression.contains(";")) System.out.println(invoke(
+        else if (expression.contains("#") && expression.contains(";")) invoke(
                 expression.substring(0,expression.indexOf("#")),
                 expression.substring(expression.indexOf("#")+1,expression.indexOf(";")),
                 Double.parseDouble(expression.substring(expression.indexOf(";")+1))
-        ));
+        );
 
         main(args);
     }
 
-    public static Object invoke(String classname, String methodName, double arg) {
+    public static void invoke(String classname, String methodName, double arg) {
         try {
             Class<?> c;
             try {
@@ -53,16 +53,18 @@ public class Main {
                 try {
                     c = Class.forName(classname);
                 } catch (ClassNotFoundException ex) {
-                    return "Could not find function.";
+                    System.out.println("Could not find function.");
+                    return;
                 }
             }
             Object instance = c.newInstance();
             Method m = c.getDeclaredMethod(methodName, double.class);
             m.setAccessible(true);
-            return m.invoke(instance, arg);
+            Object result = m.invoke(instance, arg);
+            if (result != null) System.out.println(result);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             e.printStackTrace();
-            return "Error invoking fuction.";
+            System.out.println("Error invoking fuction.");
         }
     }
 
