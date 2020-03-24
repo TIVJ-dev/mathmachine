@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         if (!initDone) init();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String expression = null;
+        String expression;
         try {
             expression = reader.readLine();
         } catch (IOException e) {main(args); return;}
